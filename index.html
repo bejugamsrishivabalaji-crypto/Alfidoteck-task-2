@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Quiz Application</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="background">
+        <div class="gradient-bg"></div>
+        <div class="particles">
+            <div class="particle particle-1"></div>
+            <div class="particle particle-2"></div>
+            <div class="particle particle-3"></div>
+            <div class="particle particle-4"></div>
+            <div class="particle particle-5"></div>
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="main-container">
+        
+        <!-- PAGE 1: User Information -->
+        <div class="page page-1 active">
+            <div class="quiz-card">
+                <div class="card-header">
+                    <h1 class="title">Welcome to Quiz Master</h1>
+                    <p class="subtitle">Test your knowledge with style</p>
+                </div>
+
+                <form class="user-form" id="userForm">
+                    <div class="form-group">
+                        <label for="fullName">Full Name</label>
+                        <input type="text" id="fullName" placeholder="Enter your full name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="rollNo">Roll Number</label>
+                        <input type="text" id="rollNo" placeholder="Enter your roll number" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email (Optional)</label>
+                        <input type="email" id="email" placeholder="Enter your email">
+                    </div>
+
+                    <div class="button-group">
+                        <button type="submit" class="btn btn-primary">
+                            <span class="btn-text">Start Quiz</span>
+                            <span class="btn-icon">→</span>
+                        </button>
+                        <button type="button" class="btn btn-secondary" onclick="exitApp()">
+                            <span class="btn-text">Exit</span>
+                        </button>
+                    </div>
+                </form>
+
+                <div class="info-section">
+                    <p>📊 <strong>15 Questions</strong> • 🎯 <strong>Multiple Choice</strong> • ⏱️ <strong>No Time Limit</strong></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- PAGE 2: Quiz Questions -->
+        <div class="page page-2">
+            <div class="quiz-container">
+                <!-- Header -->
+                <div class="quiz-header">
+                    <div class="user-info">
+                        <h2 id="displayName"></h2>
+                        <p id="displayRoll"></p>
+                    </div>
+                    <div class="quiz-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="progressFill"></div>
+                        </div>
+                        <p class="progress-text"><span id="currentQuestion">1</span> / <span id="totalQuestions">15</span></p>
+                    </div>
+                </div>
+
+                <!-- Question Card -->
+                <div class="quiz-card quiz-card-question">
+                    <div class="question-number">Question <span id="qNumber">1</span></div>
+                    <h3 class="question-text" id="questionText"></h3>
+
+                    <!-- Options -->
+                    <div class="options-container" id="optionsContainer"></div>
+
+                    <!-- Reminder for Skipped Questions -->
+                    <div class="reminder-section" id="reminderSection" style="display: none;">
+                        <div class="reminder-card">
+                            <span class="reminder-icon">⚠️</span>
+                            <p class="reminder-text">You haven't answered this question yet. Would you like to skip it?</p>
+                        </div>
+                    </div>
+
+                    <!-- Navigation Buttons -->
+                    <div class="navigation-buttons">
+                        <button class="btn btn-secondary btn-sm" onclick="previousQuestion()" id="prevBtn">
+                            <span>← Previous</span>
+                        </button>
+                        <button class="btn btn-warning btn-sm" onclick="skipQuestion()" id="skipBtn">
+                            <span>⊘ Skip Question</span>
+                        </button>
+                        <button class="btn btn-primary btn-sm" onclick="nextQuestion()" id="nextBtn">
+                            <span>Next →</span>
+                        </button>
+                    </div>
+
+                    <!-- Preview Panel -->
+                    <div class="preview-toggle">
+                        <button class="btn btn-outline btn-sm" onclick="togglePreview()">
+                            <span id="previewToggleText">📋 Show Preview</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Preview Panel -->
+                <div class="preview-panel" id="previewPanel" style="display: none;">
+                    <div class="preview-header">
+                        <h4>Question Preview</h4>
+                        <button onclick="togglePreview()" class="close-btn">✕</button>
+                    </div>
+                    <div class="preview-content" id="previewContent"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PAGE 3: Results -->
+        <div class="page page-3">
+            <div class="results-container">
+                <!-- Results Header -->
+                <div class="results-header">
+                    <h1 class="results-title">Quiz Complete! 🎉</h1>
+                    <div class="score-card">
+                        <div class="score-circle">
+                            <svg class="score-svg" viewBox="0 0 100 100">
+                                <circle class="score-circle-bg" cx="50" cy="50" r="45"></circle>
+                                <circle class="score-circle-fill" cx="50" cy="50" r="45" id="scoreCircle"></circle>
+                            </svg>
+                            <div class="score-display">
+                                <span class="score-percentage" id="scorePercentage">0%</span>
+                                <span class="score-label">Score</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Results Summary -->
+                <div class="results-summary">
+                    <div class="summary-card">
+                        <div class="summary-stat">
+                            <span class="stat-number" id="totalAnswered">0</span>
+                            <span class="stat-label">Answered</span>
+                        </div>
+                        <div class="summary-stat correct">
+                            <span class="stat-number" id="correctCount">0</span>
+                            <span class="stat-label">Correct</span>
+                        </div>
+                        <div class="summary-stat incorrect">
+                            <span class="stat-number" id="incorrectCount">0</span>
+                            <span class="stat-label">Wrong</span>
+                        </div>
+                        <div class="summary-stat skipped">
+                            <span class="stat-number" id="skippedCount">0</span>
+                            <span class="stat-label">Skipped</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Detailed Review -->
+                <div class="detailed-review">
+                    <h3>Detailed Review</h3>
+                    <div class="review-content" id="reviewContent"></div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="results-buttons">
+                    <button class="btn btn-primary btn-lg" onclick="restartQuiz()">
+                        <span>🔄 Retake Quiz</span>
+                    </button>
+                    <button class="btn btn-secondary btn-lg" onclick="goHome()">
+                        <span>🏠 Go Home</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="quiz-data.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
