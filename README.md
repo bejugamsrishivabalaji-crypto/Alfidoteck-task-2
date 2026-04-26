@@ -165,4 +165,11 @@ animation: gradientShift 15s ease infinite; /* Change 15s */
 
 ---
 
-**Enjoy your Premium Quiz Application! 🚀**
+## LIVE LINK 
+
+https://alfidoteck-task-2.vercel.app/
+
+## DOCUMENTATION LINK
+
+https://docs.google.com/document/d/1qXbBFMf2JZ-5M9uaESsjNNpNXYk0uXklcOmsFy8PQT4/edit?usp=sharing 
+
